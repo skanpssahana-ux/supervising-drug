@@ -12,21 +12,20 @@ st.markdown("This application analyzes drug datasets for common side effects, me
 # ------------------------------------------------------
 # 1. LOAD DATASET
 # ------------------------------------------------------
-# Added a file uploader so you don't have to hardcode the path
 uploaded_file = st.file_uploader("Upload your dataset (CSV)", type="csv")
 
 if uploaded_file is not None:
     df = pd.read_csv(uploaded_file)
     st.success("Dataset loaded successfully!")
-    # Immediately check columns
-st.write("Available columns:", df.columns.tolist())
+    st.write("Available columns:", df.columns.tolist())
+
     # Create Tabs for Organization
     tab1, tab2, tab3 = st.tabs(["📊 Data Analysis", "📈 Visualizations", "🛡️ Safety Guidance"])
 
     with tab1:
         st.header("Top Side Effects & Analysis")
-        
-        # side_effects analysis
+
+        # Side effects analysis
         if "side_effects" in df.columns:
             df["side_effects"] = df["side_effects"].astype(str).fillna("")
             
@@ -39,27 +38,26 @@ st.write("Available columns:", df.columns.tolist())
             top_5_effects = effect_counts.most_common(5)
 
             # Display as Metrics
-            cols = st.columns(5)
+            cols = st.columns(len(top_5_effects))
             for i, (effect, count) in enumerate(top_5_effects):
                 cols[i].metric(label=effect.title(), value=count)
         else:
             st.error("Column 'side_effects' not found in dataset.")
 
         st.divider()
-required_cols = {"drug", "severity"}
-if required_cols.issubset(df.columns):
-    # Safe to run analysis
-    severity_analysis(df)
-else:
-    st.warning("Severity analysis unavailable: 'drug' or 'severity' columns missing.")
 
         # Severity analysis
         if "drug" in df.columns and "severity" in df.columns:
             st.subheader("Top 5 Drugs by Average Severity")
-            severity_scores = df.groupby("drug")["severity"].mean().sort_values(ascending=False).head(5)
+            severity_scores = (
+                df.groupby("drug")["severity"]
+                .mean()
+                .sort_values(ascending=False)
+                .head(5)
+            )
             st.table(severity_scores)
         else:
-            st.info("Severity analysis unavailable: 'drug' or 'severity' columns missing.")
+            st.warning("Severity analysis unavailable: 'drug' or 'severity' columns missing.")
 
     with tab2:
         st.header("Data Visualizations")
