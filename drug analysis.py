@@ -1,5 +1,4 @@
 import streamlit as st
-import pandas as pd
 
 # Page Configuration
 st.set_page_config(page_title="Medicine Dashboard", layout="wide")
@@ -8,14 +7,8 @@ st.title("💊 Medicine Information Dashboard")
 st.markdown("Enter a medicine name to view its side effects and uses.")
 
 # ------------------------------------------------------
-# 1. USER INPUT
+# 1. Built-in Medicine Data
 # ------------------------------------------------------
-medicine_input = st.text_input("Enter medicine name:")
-
-# ------------------------------------------------------
-# 2. SIMPLE BUILT-IN DATA (you can expand this dictionary)
-# ------------------------------------------------------
-# Example dictionary for demo purposes
 medicine_data = {
     "paracetamol": {
         "side_effects": "Nausea, rash, liver damage (rare with overdose)",
@@ -28,11 +21,24 @@ medicine_data = {
     "amoxicillin": {
         "side_effects": "Diarrhea, nausea, allergic reactions",
         "uses": "Treats bacterial infections"
+    },
+    "cetirizine": {
+        "side_effects": "Drowsiness, dry mouth, fatigue",
+        "uses": "Relief from allergy symptoms like sneezing, runny nose, itching"
+    },
+    "omeprazole": {
+        "side_effects": "Headache, abdominal pain, diarrhea",
+        "uses": "Reduces stomach acid, treats GERD and ulcers"
     }
 }
 
 # ------------------------------------------------------
-# 3. DISPLAY RESULTS
+# 2. User Input
+# ------------------------------------------------------
+medicine_input = st.text_input("Enter medicine name:")
+
+# ------------------------------------------------------
+# 3. Display Results
 # ------------------------------------------------------
 if medicine_input:
     key = medicine_input.strip().lower()
