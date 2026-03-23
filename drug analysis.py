@@ -1,14 +1,3 @@
-import streamlit as st
-
-# Page Configuration
-st.set_page_config(page_title="Medicine Dashboard", layout="wide")
-
-st.title("💊 Medicine Information Dashboard")
-st.markdown("Enter a medicine name to view its side effects and uses.")
-
-# ------------------------------------------------------
-# 1. Built-in Medicine Data
-# ------------------------------------------------------
 medicine_data = {
     "paracetamol": {
         "side_effects": "Nausea, rash, liver damage (rare with overdose)",
@@ -29,22 +18,9 @@ medicine_data = {
     "omeprazole": {
         "side_effects": "Headache, abdominal pain, diarrhea",
         "uses": "Reduces stomach acid, treats GERD and ulcers"
+    },
+    "aspirin": {
+        "side_effects": "Stomach irritation, bleeding risk, allergic reactions",
+        "uses": "Pain relief, reduces fever, prevents blood clots"
     }
 }
-
-# ------------------------------------------------------
-# 2. User Input
-# ------------------------------------------------------
-medicine_input = st.text_input("Enter medicine name:")
-
-# ------------------------------------------------------
-# 3. Display Results
-# ------------------------------------------------------
-if medicine_input:
-    key = medicine_input.strip().lower()
-    if key in medicine_data:
-        st.subheader(f"Results for: {medicine_input.title()}")
-        st.info(f"**Side Effects:** {medicine_data[key]['side_effects']}")
-        st.success(f"**Uses:** {medicine_data[key]['uses']}")
-    else:
-        st.warning("No information found for that medicine. Try another name.")
