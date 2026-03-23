@@ -18,7 +18,8 @@ uploaded_file = st.file_uploader("Upload your dataset (CSV)", type="csv")
 if uploaded_file is not None:
     df = pd.read_csv(uploaded_file)
     st.success("Dataset loaded successfully!")
-    
+    # Immediately check columns
+st.write("Available columns:", df.columns.tolist())
     # Create Tabs for Organization
     tab1, tab2, tab3 = st.tabs(["📊 Data Analysis", "📈 Visualizations", "🛡️ Safety Guidance"])
 
@@ -45,6 +46,12 @@ if uploaded_file is not None:
             st.error("Column 'side_effects' not found in dataset.")
 
         st.divider()
+required_cols = {"drug", "severity"}
+if required_cols.issubset(df.columns):
+    # Safe to run analysis
+    severity_analysis(df)
+else:
+    st.warning("Severity analysis unavailable: 'drug' or 'severity' columns missing.")
 
         # Severity analysis
         if "drug" in df.columns and "severity" in df.columns:
